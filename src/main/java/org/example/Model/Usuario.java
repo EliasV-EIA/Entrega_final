@@ -29,4 +29,52 @@ public abstract class Usuario {
         this.fechaRegistro = fechaRegistro;
         this.estadoCuenta = estadoCuenta;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
+    public String getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(String fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public String getEstadoCuenta() {
+        return estadoCuenta;
+    }
+
+    public void setEstadoCuenta(String estadoCuenta) {
+        this.estadoCuenta = estadoCuenta;
+    }
 }

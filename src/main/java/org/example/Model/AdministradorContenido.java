@@ -32,4 +32,6 @@ public class AdministradorContenido extends Usuario {
             this.permisosDeEdicion.add("stock");
         if (fecha)
             this.permisosDeEdicion.add("fecha");
-    }}
+    }
+
+}

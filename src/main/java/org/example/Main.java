@@ -78,32 +78,32 @@ public class Main {
         }
 
     }
-//    public static void login(){
-//        String username;
-//        String password;
-//        int retry;
-//        username=JOptionPane.showInputDialog(null, "Nombre");
-//        if (usuarioService.)
-//        {
-//            System.out.println(usuarios.get(username).getPasswordHash());
-//            password=JOptionPane.showInputDialog(null, "Contrasena");
-//
-//            if (password.compareTo(usuarios.get(username).getPasswordHash())==0){
-//
-//                System.out.println("CORRECTo");
-//                accionUsuario(usuarios.get(username));
-//            }
-//            else
-//                JOptionPane.showMessageDialog(null, "Contrasena incorrecta");
-//        }
-//        else {
-//            retry = JOptionPane.showConfirmDialog(null, "Ese usuario no existe, quiere intentar de nuevo?");
-//            if (retry == JOptionPane.YES_OPTION){
-//                login();
-//            }
-//
-//        }
-//    }
+    public static void login(){
+        String username;
+        String password;
+        int retry;
+        username=JOptionPane.showInputDialog(null, "Nombre");
+        if (usuarioService.)
+        {
+            System.out.println(usuarios.get(username).getPasswordHash());
+            password=JOptionPane.showInputDialog(null, "Contrasena");
+
+            if (password.compareTo(usuarios.get(username).getPasswordHash())==0){
+
+                System.out.println("CORRECTo");
+                accionUsuario(usuarios.get(username));
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Contrasena incorrecta");
+        }
+        else {
+            retry = JOptionPane.showConfirmDialog(null, "Ese usuario no existe, quiere intentar de nuevo?");
+            if (retry == JOptionPane.YES_OPTION){
+                login();
+            }
+
+        }
+    }
 //    public static void accionUsuario(Usuario u){
 //        if (u instanceof Duena){
 //            System.out.println("Menu cabra");
@@ -256,7 +256,7 @@ public class Main {
 //            System.out.println(((AdministradorContenido) usuarios.get(nombre)).getPermisosDeEdicion());
 //            System.out.println(usuarios.get(nombre).detalleUsuario());
 //            System.out.println(usuarios.get(nombre).getClass());
-
+            System.out.println(usuarioService.getUsuarioByNombre(obj_cont.getNombre()).get());
         }
     }
 //    public static void testmenu () {
