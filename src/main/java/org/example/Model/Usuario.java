@@ -9,23 +9,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "estudiantes")
+@Table(name = "usuarios")
 @Data
 @NoArgsConstructor
-public class Estudiante {
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nombre;
-    private String apellido;
-    private String email;
+    private String passwordHash;
+    private String rol;
+    private String fechaRegistro;
+    private String estadoCuenta;
 
-    public Estudiante(String nombre, String apellido, String email) {
+    public Usuario(String nombre, String passwordHash, String rol, String fechaRegistro, String estadoCuenta) {
         this.nombre = nombre;
-        this.apellido = apellido;
-        this.email = email;
+        this.passwordHash = passwordHash;
+        this.rol = rol;
+        this.fechaRegistro = fechaRegistro;
+        this.estadoCuenta = estadoCuenta;
     }
 
     public Long getId() {
@@ -44,19 +48,19 @@ public class Estudiante {
         this.nombre = nombre;
     }
 
-    public String getApellido() {
-        return apellido;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
-    public String getEmail() {
-        return email;
+    public String getRol() {
+        return rol;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 }

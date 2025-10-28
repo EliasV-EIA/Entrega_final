@@ -1,6 +1,6 @@
 package org.example.Services;
 
-import org.example.Model.Estudiante;
+import org.example.Model.Usuario;
 import org.example.Repositories.EstudianteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,26 +15,26 @@ public class EstudianteService {
     @Autowired
     private EstudianteRepository estudianteRepository;
 
-    public List<Estudiante> getAllStudents() {
+    public List<Usuario> getAllStudents() {
         return estudianteRepository.findAll();
     }
 
-    public Estudiante saveStudent(Estudiante estudiante){
-        return estudianteRepository.save(estudiante);
+    public Usuario saveStudent(Usuario usuario){
+        return estudianteRepository.save(usuario);
     }
 
-    public Optional<Estudiante> getStudentById(Long Id){
+    public Optional<Usuario> getStudentById(Long Id){
         return estudianteRepository.findById(Id);
     }
 
 
-    public Estudiante updateStudenInfo(Long Id, Estudiante nuevaInfoEstudiante){
+    public Usuario updateStudenInfo(Long Id, Usuario nuevaInfoUsuario){
         return estudianteRepository.findById(Id).map(
-                estudiante ->{
-                    estudiante.setNombre(nuevaInfoEstudiante.getNombre());
-                    estudiante.setApellido(nuevaInfoEstudiante.getApellido());
-                    estudiante.setEmail(nuevaInfoEstudiante.getEmail());
-                    return estudianteRepository.save(estudiante);
+                usuario ->{
+                    usuario.setNombre(nuevaInfoUsuario.getNombre());
+                    usuario.setPasswordHash(nuevaInfoUsuario.getPasswordHash());
+                    usuario.setRol(nuevaInfoUsuario.getRol());
+                    return estudianteRepository.save(usuario);
                 }
         ).orElse(null);
     }
