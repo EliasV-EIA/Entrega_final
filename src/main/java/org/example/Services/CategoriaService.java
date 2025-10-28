@@ -1,5 +1,6 @@
 package org.example.Services;
 
+import org.example.Model.Categoria;
 import org.example.Model.Producto;
 import org.example.Repositories.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +15,19 @@ public class CategoriaService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    public List<Producto> getAllCategorias() {
+    public List<Categoria> getAllCategorias() {
         return categoriaRepository.findAll();
     }
 
-    public Producto saveProducto(Producto producto) {
-        return categoriaRepository.save(producto);
+    public Categoria saveCategoria(Categoria categoria) {
+        return categoriaRepository.save(categoria);
     }
 
-    public Optional<Producto> getProductoById(Long id) {
+    public Optional<Categoria> getCategoriaById(Long id) {
         return categoriaRepository.findById(id);
     }
 
-    public boolean deleteProducto(Long id) {
+    public boolean deleteCategoria(Long id) {
         if (categoriaRepository.existsById(id)) {
             categoriaRepository.deleteById(id);
             return true;
