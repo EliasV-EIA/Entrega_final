@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.Model.AdministradorContenido;
+import org.example.Model.AdministradorUsuarios;
 import org.example.Model.Cliente;
 import org.example.Model.Usuario;
 import org.example.Services.CategoriaService;
@@ -19,13 +21,13 @@ import java.util.List;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 @SpringBootApplication
 public class Main {
-    @Autowired
+
     private static ProductoService productoService;
 
-    @Autowired
+
     private static CategoriaService categoriaService;
 
-    @Autowired
+
     private static UsuarioService usuarioService;
     public static void main(String[] args) {
         System.setProperty("java.awt.headless", "false");
@@ -234,27 +236,28 @@ public class Main {
             String telefono = JOptionPane.showInputDialog(null,"telefono");
             Cliente obj_cliente = new Cliente(nombre,pass,fecha,estado,direccion,telefono);
             usuarioService.saveUsuario(obj_cliente);
-//        } else if (tipo == 1) {
-//            rol = JOptionPane.showInputDialog(null, "Rol");
-//            int nivel = Integer.parseInt(JOptionPane.showInputDialog(null, "Nivel de acceso"));
-//            usuarios.put(nombre, new AdministradorUsuario(id, nombre, pass, rol, fecha, estado, nivel));
-//
-//        } else if (tipo == 2) {
-//            rol = JOptionPane.showInputDialog(null, "Rol");
-//            AdministradorContenido obj_cont = new AdministradorContenido(id, nombre, pass, rol, fecha, estado,
-//                    JOptionPane.showConfirmDialog(null, "Tiene este usuario permiso para editar nombres?", "Permisos", JOptionPane.YES_NO_OPTION) == 1,
-//                    JOptionPane.showConfirmDialog(null, "Tiene este usuario permiso para editar categorias?", "Permisos", JOptionPane.YES_NO_OPTION) == 1,
-//                    JOptionPane.showConfirmDialog(null, "Tiene este usuario permiso para editar descripciones?", "Permisos", JOptionPane.YES_NO_OPTION) == 1,
-//                    JOptionPane.showConfirmDialog(null, "Tiene este usuario permiso para editar precios?", "Permisos", JOptionPane.YES_NO_OPTION) == 1,
-//                    JOptionPane.showConfirmDialog(null, "Tiene este usuario permiso para editar stocks?", "Permisos", JOptionPane.YES_NO_OPTION) == 1,
-//                    JOptionPane.showConfirmDialog(null, "Tiene este usuario permiso para editar fechas de lanzamiento?", "Permisos", JOptionPane.YES_NO_OPTION) == 1);
-//            usuarios.put(nombre, obj_cont);
+          }
+            else if (tipo == 1) {
+             rol = JOptionPane.showInputDialog(null, "Rol");
+                int nivel = Integer.parseInt(JOptionPane.showInputDialog(null, "Nivel de acceso"));
+            AdministradorUsuarios obj_adminus = new AdministradorUsuarios( nombre, pass, rol, fecha, estado, nivel);
+            usuarioService.saveUsuario(obj_adminus);
+            } else if (tipo == 2) {
+            rol = JOptionPane.showInputDialog(null, "Rol");
+            AdministradorContenido obj_cont = new AdministradorContenido( nombre, pass, rol, fecha, estado,
+                    JOptionPane.showConfirmDialog(null, "Tiene este usuario permiso para editar nombres?", "Permisos", JOptionPane.YES_NO_OPTION) == 1,
+                    JOptionPane.showConfirmDialog(null, "Tiene este usuario permiso para editar categorias?", "Permisos", JOptionPane.YES_NO_OPTION) == 1,
+                    JOptionPane.showConfirmDialog(null, "Tiene este usuario permiso para editar descripciones?", "Permisos", JOptionPane.YES_NO_OPTION) == 1,
+                    JOptionPane.showConfirmDialog(null, "Tiene este usuario permiso para editar precios?", "Permisos", JOptionPane.YES_NO_OPTION) == 1,
+                    JOptionPane.showConfirmDialog(null, "Tiene este usuario permiso para editar stocks?", "Permisos", JOptionPane.YES_NO_OPTION) == 1,
+                    JOptionPane.showConfirmDialog(null, "Tiene este usuario permiso para editar fechas de lanzamiento?", "Permisos", JOptionPane.YES_NO_OPTION) == 1);
+            usuarioService.saveUsuario( obj_cont);
 //            System.out.println(obj_cont.getPermisosDeEdicion());
 //            System.out.println(((AdministradorContenido) usuarios.get(nombre)).getPermisosDeEdicion());
 //            System.out.println(usuarios.get(nombre).detalleUsuario());
 //            System.out.println(usuarios.get(nombre).getClass());
-        }
 
+        }
     }
 //    public static void testmenu () {
 //        String inp = JOptionPane.showInputDialog(null, "comando");
