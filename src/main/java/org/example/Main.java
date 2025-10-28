@@ -1,7 +1,10 @@
 package org.example;
 
 import org.example.Model.Usuario;
+import org.example.Services.CategoriaService;
 import org.example.Services.EstudianteService;
+import org.example.Services.ProductoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +19,14 @@ public class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
+    @Autowired
+    private static ProductoService productoService;
 
+    @Autowired
+    private static CategoriaService categoriaService;
+
+    @Autowired
+    private static UsuarioServic usuarioService;
     @Bean
     public CommandLineRunner run(EstudianteService estudianteService) {
         return args -> {
