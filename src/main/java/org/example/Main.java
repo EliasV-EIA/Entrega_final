@@ -135,6 +135,15 @@ public class Main {
             case "salir":{
                 break;
             }
+            case "editar":{
+                String nombre_usuario= JOptionPane.showInputDialog(null, "Nombre del usuario a editar");
+                if (usuarioService.checkByNombre(nombre_usuario)){
+                editarUsuario(usuarioService.getUsuarioByNombre(nombre_usuario).get());
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Usuario inexistente");
+                }
+            }
             default:{
                 accionAdminUsuarios(u);
                 break;
@@ -243,6 +252,57 @@ public class Main {
                 break;
             }
         }
+    }
+    public static void editarUsuario(Usuario usuario){
+        String mensaje ="Que campo va a editar? (nombre, contasena, estado, fecha";
+        if (usuario instanceof AdministradorUsuarios){
+            mensaje += ", rol, nivel";
+        }
+        if (usuario instanceof AdministradorContenido){
+            mensaje += ", rol, permisos";
+        }
+        if (usuario instanceof Cliente){
+            mensaje += ", direccion, telefono";
+        }
+        mensaje+=", salir)";
+        String inp = JOptionPane.showInputDialog(null, mensaje);
+        switch (inp.toLowerCase()){
+            case "nombre":{
+                String nuevo_nombre = JOptionPane.showInputDialog(null, "Nombre");
+                usuario.setNombre(nuevo_nombre);
+                usuarioService.saveUsuario(usuario);
+                editarUsuario(usuario);
+                break;
+            }
+            case "contrasena":{
+                String nueva_contrasena= JOptionPane.showInputDialog(null,"Contrasena");
+                usuario.setPasswordHash(nueva_contrasena);
+                usuarioService.saveUsuario(usuario);
+                editarUsuario(usuario);
+                break;
+            }
+            case "estado":{
+                String nuevo_estado = JOptionPane.showInputDialog(null, "Estado");
+                usuario.setEstadoCuenta(nuevo_estado);
+                usuarioService.saveUsuario(usuario);
+                editarUsuario(usuario);
+                break;
+            }
+            case "fecha":{
+                String nueva_fecha= JOptionPane.showInputDialog(null, "Fecha");
+                usuario.setFechaRegistro(nueva_fecha);
+                usuarioService.saveUsuario(usuario);
+                editarUsuario(usuario);
+                break;
+            }
+            case "salir":{
+                break;
+            }
+            default:
+                editarUsuario(usuario);
+                break;
+        }
+
     }
     public static void editarCategoria(Categoria categoria){
         String inp = JOptionPane.showInputDialog(null, "Que campo va a editar? (nombre, descripcion, salir)").toLowerCase();
