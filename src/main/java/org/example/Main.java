@@ -90,7 +90,7 @@ public class Main {
 
           //  if (password.compareTo(usuarios.get(username).getPasswordHash())==0){
             if (password.compareTo(usuarioService.getUsuarioByNombre(username).get().getPasswordHash())==0){
-                System.out.println("CORRECTo");
+                System.out.println("CORRECTO");
                 accionUsuario(usuarioService.getUsuarioByNombre(username).get());
             }
             else
@@ -132,9 +132,17 @@ public class Main {
                 if (opt == 0) {
 
                 } else if (opt == 1) {
-                    if (u.getPermisosDeEdicion().contains("categoria")){
+                  //  if (u.getPermisosDeEdicion().contains("categoria")){
+                        String nombre_categoria= JOptionPane.showInputDialog(null, "Nombre de la categoria a eliminar");
+                        if(categoriaService.checkByNombre(nombre_categoria)){
+                            editarCategoria(categoriaService.getCategoriaByNombre(nombre_categoria).get());
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Categoria inexistente");
 
-                    }
+                        }
+
+                  //  }
                 }
                 accionAdminContenido(u);
                 break;
@@ -143,13 +151,11 @@ public class Main {
                 opt = JOptionPane.showOptionDialog(null, "Que desea crear?", "Crear", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[2]);
                 if (opt == 0) {
 
-                    String id_producto;
                     String nombre_producto;
                     String categoria_producto;
                     double precio_producto;
                     int stock_producto;
                     String fecha_producto;
-                    id_producto = JOptionPane.showInputDialog(null, "Id");
                     nombre_producto = JOptionPane.showInputDialog(null, "Nombre");
                     categoria_producto = JOptionPane.showInputDialog(null, "Categoria").toLowerCase();
                     if (!categoriaService.checkByNombre(nombre_producto))
@@ -166,10 +172,8 @@ public class Main {
 
 
                 } else if (opt == 1) {
-                    String id_categoria;
                     String nombre_categoria;
                     String descripcion_categoria;
-                  //  id_categoria = JOptionPane.showInputDialog(null, "Id");
                     nombre_categoria = (JOptionPane.showInputDialog(null, "Nombre")).toLowerCase();
                     descripcion_categoria = JOptionPane.showInputDialog(null, "Descripcion");
                     Categoria obj_categoria = new Categoria( nombre_categoria, descripcion_categoria);
@@ -211,6 +215,86 @@ public class Main {
             }
             default: {
                 accionAdminContenido(u);
+                break;
+            }
+        }
+    }
+    public static void editarCategoria(Categoria categoria){
+        String inp = JOptionPane.showInputDialog(null, "Que campo va a editar? (nombre, descripcion, salir)").toLowerCase();
+        switch (inp){
+            case "nombre":{
+                String nuevo_nombre = JOptionPane.showInputDialog(null, "Nombre");
+                categoria.setNombre(nuevo_nombre);
+                categoriaService.saveCategoria(categoria);
+                editarCategoria(categoria);
+                break;
+            }
+            case "descripcion":{
+                String nueva_descripcion = JOptionPane.showInputDialog(null, "Descripcion");
+                categoria.setDescripcion(nueva_descripcion);
+                categoriaService.saveCategoria(categoria);
+                editarCategoria(categoria);
+                break;
+            }
+            case "salir":{
+                break;
+            }
+            default:{
+                editarCategoria(categoria);
+                break;
+            }
+        }
+    }
+    public static void editarProducto(Producto producto){
+        String inp = JOptionPane.showInputDialog(null, "Que campo va a editar? (nombre, precio, stock, fecha, categoria, salir)").toLowerCase();
+        switch (inp){
+            case "nombre":{
+                String nuevo_nombre = JOptionPane.showInputDialog(null, "Nombre");
+                producto.setNombre(nuevo_nombre);
+               productoService.saveProducto(producto);
+                editarProducto(producto);
+                break;
+            }
+            case "precio":{
+                Double nuevo_precio = Double.parseDouble(JOptionPane.showInputDialog(null, "Nombre"));
+                producto.setPrecio(nuevo_precio);
+                productoService.saveProducto(producto);
+                editarProducto(producto);
+                break;
+            }
+            case "stock":{
+                int nuevo_stock = Integer.parseInt(JOptionPane.showInputDialog(null, "Nombre"));
+                producto.setStock(nuevo_stock);
+                productoService.saveProducto(producto);
+                editarProducto(producto);
+                break;
+            }
+            case "salir":{
+                break;
+            }
+            case "fecha":{
+                String nueva_fecha = JOptionPane.showInputDialog(null, "Nombre");
+                producto.setFechaLanzamiento(nueva_fecha);
+                productoService.saveProducto(producto);
+                editarProducto(producto);
+                break;
+            }
+            case "categoria":{
+                String categoria= JOptionPane.showInputDialog(null, "Categoria");
+                if(categoriaService.checkByNombre(categoria)){
+                    producto.setCategoria(categoriaService.getCategoriaByNombre(categoria).get());
+                    productoService.saveProducto(producto);
+                    editarProducto(producto);
+                    break;
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Categoria inexistente");
+                    editarProducto(producto);
+                    break;
+                }
+            }
+            default:{
+                editarProducto(producto);
                 break;
             }
         }
