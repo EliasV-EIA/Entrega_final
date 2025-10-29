@@ -113,14 +113,34 @@ public class Main {
             accionAdminContenido((AdministradorContenido) u);
         }
         else if (u instanceof AdministradorUsuarios) {
-            System.out.println("AdminUsuario");
+            accionAdminUsuarios((AdministradorUsuarios) u);
         }
         else
             throw new RuntimeException("Tipo de usuario no encontrado");
 
     }
 
-
+    public static void accionAdminUsuarios(AdministradorUsuarios u){
+        String inp = JOptionPane.showInputDialog(null, "Escriba opcion: salir, editar, eliminar");
+        switch (inp){
+            case "eliminar":{
+                String nombre_usuario= JOptionPane.showInputDialog(null, "Nombre del usuario a eliminar");
+                if (usuarioService.checkByNombre(nombre_usuario)){
+                    usuarioService.deleteUsuario(usuarioService.getUsuarioByNombre(nombre_usuario).get().getId());
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Usuario inexistente");
+                }
+            }
+            case "salir":{
+                break;
+            }
+            default:{
+                accionAdminUsuarios(u);
+                break;
+            }
+        }
+    }
     public static void accionAdminContenido(AdministradorContenido u) {
         int opt;
         Object[] opciones = {"Producto", "Categoria", "Salir"};
@@ -131,9 +151,14 @@ public class Main {
                 opt = JOptionPane.showOptionDialog(null, "Que desea editar?", "Editar", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[2]);
                 if (opt == 0) {
 
+                    String nombre_producto = JOptionPane.showInputDialog(null,"Nombre de el producto a editar");
+                    if(productoService.checkByNombre(nombre_producto)){
+                        editarProducto(productoService.getProductoByNombre(nombre_producto).get());
+                    }
+
                 } else if (opt == 1) {
                   //  if (u.getPermisosDeEdicion().contains("categoria")){
-                        String nombre_categoria= JOptionPane.showInputDialog(null, "Nombre de la categoria a eliminar");
+                        String nombre_categoria= JOptionPane.showInputDialog(null, "Nombre de la categoria a editar");
                         if(categoriaService.checkByNombre(nombre_categoria)){
                             editarCategoria(categoriaService.getCategoriaByNombre(nombre_categoria).get());
                         }
@@ -299,7 +324,6 @@ public class Main {
             }
         }
     }
-
     public static void registar () {
         Object[] opciones = {"Cliente", "AdminUsuario", "AdminContenido"};
         int tipo;
