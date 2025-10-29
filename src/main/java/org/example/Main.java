@@ -295,6 +295,13 @@ public class Main {
                 editarUsuario(usuario);
                 break;
             }
+            case "rol":{
+                if (usuario instanceof Cliente){
+                    JOptionPane.showMessageDialog(null, "El usuario no es un empleado");
+                    editarUsuario(usuario);
+                    break;
+                }
+            }
             case "salir":{
                 break;
             }
