@@ -3,6 +3,7 @@ package org.example.Services;
 import org.example.Model.Usuario;
 import org.example.Repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +33,13 @@ public class UsuarioService {
     public Optional<Usuario> getUsuarioByNombre(String nombre) {
         return usuarioRepository.findByNombre(nombre);
     }
+    public boolean checkByNombre(String nombre){
+       if (usuarioRepository.existsByNombre(nombre)){
+           return true;
+       }
+       else return false;
 
+    }
     public boolean deleteUsuario(Long id) {
         if (usuarioRepository.existsById(id)) {
             usuarioRepository.deleteById(id);

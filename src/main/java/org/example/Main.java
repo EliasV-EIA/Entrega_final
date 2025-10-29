@@ -1,9 +1,6 @@
 package org.example;
 
-import org.example.Model.AdministradorContenido;
-import org.example.Model.AdministradorUsuarios;
-import org.example.Model.Cliente;
-import org.example.Model.Usuario;
+import org.example.Model.*;
 import org.example.Services.CategoriaService;
 import org.example.Services.UsuarioService;
 import org.example.Services.ProductoService;
@@ -34,6 +31,9 @@ public class Main {
 
         ApplicationContext context = SpringApplication.run(Main.class, args);
         usuarioService = context.getBean(UsuarioService.class);
+        categoriaService = context.getBean(CategoriaService.class);
+        productoService = context.getBean(ProductoService.class);
+
 
         electorBase();
     }
@@ -59,7 +59,7 @@ public class Main {
 
         switch (inp) {
             case 0: {
-//                login();
+                login();
                 electorBase();
                 break;
             }
@@ -83,15 +83,15 @@ public class Main {
         String password;
         int retry;
         username=JOptionPane.showInputDialog(null, "Nombre");
-        if (usuarioService.)
+        if (usuarioService.checkByNombre(username))
         {
-            System.out.println(usuarios.get(username).getPasswordHash());
+           // System.out.println(usuarios.get(username).getPasswordHash());
             password=JOptionPane.showInputDialog(null, "Contrasena");
 
-            if (password.compareTo(usuarios.get(username).getPasswordHash())==0){
-
+          //  if (password.compareTo(usuarios.get(username).getPasswordHash())==0){
+            if (password.compareTo(usuarioService.getUsuarioByNombre(username).get().getPasswordHash())==0){
                 System.out.println("CORRECTo");
-                accionUsuario(usuarios.get(username));
+                accionUsuario(usuarioService.getUsuarioByNombre(username).get());
             }
             else
                 JOptionPane.showMessageDialog(null, "Contrasena incorrecta");
@@ -104,117 +104,117 @@ public class Main {
 
         }
     }
-//    public static void accionUsuario(Usuario u){
+    public static void accionUsuario(Usuario u){
 //        if (u instanceof Duena){
 //            System.out.println("Menu cabra");
 //
 //        }
-//        else if (u instanceof AdministradorContenido){
-//            accionAdminContenido((AdministradorContenido) u);
-//        }
-//        else if (u instanceof AdministradorUsuario) {
-//            System.out.println("AdminUsuario");
-//        }
-//        else
-//            throw new RuntimeException("Tipo de usuario no encontrado");
-//
-//    }
+        /*else*/ if (u instanceof AdministradorContenido){
+            accionAdminContenido((AdministradorContenido) u);
+        }
+        else if (u instanceof AdministradorUsuarios) {
+            System.out.println("AdminUsuario");
+        }
+        else
+            throw new RuntimeException("Tipo de usuario no encontrado");
+
+    }
 
 
-//    public static void accionAdminContenido(AdministradorContenido u) {
-//        int opt;
-//        Object[] opciones = {"Producto", "Categoria", "Salir"};
-//        String inp = JOptionPane.showInputDialog(null, "Escriba opcion: salir, crear, editar, eliminar");
-//        switch (inp.toLowerCase()) {
-//            case "editar": {
-//
-//                opt = JOptionPane.showOptionDialog(null, "Que desea editar?", "Editar", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[2]);
-//                if (opt == 0) {
-//
-//                } else if (opt == 1) {
-//                    if (u.getPermisosDeEdicion().contains("categoria")){
-//
-//                    }
-//                }
-//                accionAdminContenido(u);
-//                break;
-//            }
-//            case "crear": {
-//                opt = JOptionPane.showOptionDialog(null, "Que desea crear?", "Crear", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[2]);
-//                if (opt == 0) {
-//
-//                    String id_producto;
-//                    String nombre_producto;
-//                    String categoria_producto;
-//                    double precio_producto;
-//                    int stock_producto;
-//                    String fecha_producto;
-//                    id_producto = JOptionPane.showInputDialog(null, "Id");
-//                    nombre_producto = JOptionPane.showInputDialog(null, "Nombre");
-//                    categoria_producto = JOptionPane.showInputDialog(null, "Categoria").toLowerCase();
-//                    if (!categorias.containsKey(categoria_producto))
-//                    {
-//                        JOptionPane.showMessageDialog(null, "Categoria inexistente");
-//                        accionAdminContenido(u);
-//                        break;
-//                    }
-//                    precio_producto = Double.parseDouble(JOptionPane.showInputDialog(null, "Precio"));
-//                    stock_producto = Integer.parseInt(JOptionPane.showInputDialog(null, "Stock"));
-//                    fecha_producto = JOptionPane.showInputDialog(null, "Fecha");
-//                    productos.put(nombre_producto,new Producto(id_producto,nombre_producto,categorias.get(categoria_producto),precio_producto,stock_producto,fecha_producto));
-//
-//
-//                } else if (opt == 1) {
-//                    String id_categoria;
-//                    String nombre_categoria;
-//                    String descripcion_categoria;
-//                    id_categoria = JOptionPane.showInputDialog(null, "Id");
-//                    nombre_categoria = (JOptionPane.showInputDialog(null, "Nombre")).toLowerCase();
-//                    descripcion_categoria = JOptionPane.showInputDialog(null, "Descripcion");
-//                    Categoria obj_categoria = new Categoria(id_categoria, nombre_categoria, descripcion_categoria);
-//                    if (categorias.containsKey(nombre_categoria)) {
-//                        JOptionPane.showMessageDialog(null, "Categoria ya existe");
-//                    } else {
-//                        categorias.put(nombre_categoria, obj_categoria);
-//                        System.out.println(categorias);
-//                    }
-//                }
-//                accionAdminContenido(u);
-//                break;
-//            }
-//            case "eliminar":{
-//                opt = JOptionPane.showOptionDialog(null, "Que desea eliminar?", "Eliminar", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[2]);
-//                if (opt==0){
-//                    String nombre_producto= JOptionPane.showInputDialog(null, "Nombre del producto a eliminar");
-//                    if (productos.containsKey(nombre_producto)){
-//                        productos.remove(nombre_producto);
-//                    }
-//                    else{
-//                        JOptionPane.showMessageDialog(null, "Producto inexistente");
-//                    }
-//                } else if (opt==1) {
-//                    String nombre_categoria= JOptionPane.showInputDialog(null, "Nombre del producto a eliminar");
-//                    if(categorias.containsKey(nombre_categoria)){
-//                        categorias.remove(nombre_categoria);
-//                    }
-//                    else {
-//                        JOptionPane.showMessageDialog(null, "Categoria inexistente");
-//
-//                    }
-//
-//                }
-//                accionAdminContenido(u);
-//                break;
-//            }
-//            case "salir": {
-//                break;
-//            }
-//            default: {
-//                accionAdminContenido(u);
-//                break;
-//            }
-//        }
-//    }
+    public static void accionAdminContenido(AdministradorContenido u) {
+        int opt;
+        Object[] opciones = {"Producto", "Categoria", "Salir"};
+        String inp = JOptionPane.showInputDialog(null, "Escriba opcion: salir, crear, editar, eliminar");
+        switch (inp.toLowerCase()) {
+            case "editar": {
+
+                opt = JOptionPane.showOptionDialog(null, "Que desea editar?", "Editar", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[2]);
+                if (opt == 0) {
+
+                } else if (opt == 1) {
+                    if (u.getPermisosDeEdicion().contains("categoria")){
+
+                    }
+                }
+                accionAdminContenido(u);
+                break;
+            }
+            case "crear": {
+                opt = JOptionPane.showOptionDialog(null, "Que desea crear?", "Crear", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[2]);
+                if (opt == 0) {
+
+                    String id_producto;
+                    String nombre_producto;
+                    String categoria_producto;
+                    double precio_producto;
+                    int stock_producto;
+                    String fecha_producto;
+                    id_producto = JOptionPane.showInputDialog(null, "Id");
+                    nombre_producto = JOptionPane.showInputDialog(null, "Nombre");
+                    categoria_producto = JOptionPane.showInputDialog(null, "Categoria").toLowerCase();
+                    if (!categoriaService.checkByNombre(nombre_producto))
+                    {
+                        JOptionPane.showMessageDialog(null, "Categoria inexistente");
+                        accionAdminContenido(u);
+                        break;
+                    }
+                    precio_producto = Double.parseDouble(JOptionPane.showInputDialog(null, "Precio"));
+                    stock_producto = Integer.parseInt(JOptionPane.showInputDialog(null, "Stock"));
+                    fecha_producto = JOptionPane.showInputDialog(null, "Fecha");
+                    Producto obj_producto = new Producto(nombre_producto,precio_producto,stock_producto,fecha_producto,categoriaService.getCategoriaByNombre(categoria_producto).get());
+                    productoService.saveProducto(obj_producto);
+
+
+                } else if (opt == 1) {
+                    String id_categoria;
+                    String nombre_categoria;
+                    String descripcion_categoria;
+                  //  id_categoria = JOptionPane.showInputDialog(null, "Id");
+                    nombre_categoria = (JOptionPane.showInputDialog(null, "Nombre")).toLowerCase();
+                    descripcion_categoria = JOptionPane.showInputDialog(null, "Descripcion");
+                    Categoria obj_categoria = new Categoria( nombre_categoria, descripcion_categoria);
+                    if (categoriaService.checkByNombre(nombre_categoria)) {
+                        JOptionPane.showMessageDialog(null, "Categoria ya existe");
+                    } else {
+                        categoriaService.saveCategoria(obj_categoria);
+                    }
+                }
+                accionAdminContenido(u);
+                break;
+            }
+            case "eliminar":{
+                opt = JOptionPane.showOptionDialog(null, "Que desea eliminar?", "Eliminar", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[2]);
+                if (opt==0){
+                    String nombre_producto= JOptionPane.showInputDialog(null, "Nombre del producto a eliminar");
+                    if (productoService.checkByNombre(nombre_producto)){
+                        productoService.deleteProducto(productoService.getProductoByNombre(nombre_producto).get().getId());
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Producto inexistente");
+                    }
+                } else if (opt==1) {
+                    String nombre_categoria= JOptionPane.showInputDialog(null, "Nombre de la categoria a eliminar");
+                    if(categoriaService.checkByNombre(nombre_categoria)){
+                        categoriaService.deleteCategoria(categoriaService.getCategoriaByNombre(nombre_categoria).get().getId());
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Categoria inexistente");
+
+                    }
+
+                }
+                accionAdminContenido(u);
+                break;
+            }
+            case "salir": {
+                break;
+            }
+            default: {
+                accionAdminContenido(u);
+                break;
+            }
+        }
+    }
 
     public static void registar () {
         Object[] opciones = {"Cliente", "AdminUsuario", "AdminContenido"};
@@ -259,47 +259,5 @@ public class Main {
             System.out.println(usuarioService.getUsuarioByNombre(obj_cont.getNombre()).get());
         }
     }
-//    public static void testmenu () {
-//        String inp = JOptionPane.showInputDialog(null, "comando");
-//        switch (inp) {
-//            case "normal": {
-//                electorBase();
-//                testmenu();
-//                break;
-//            }
-//            case "listusers": {
-//                System.out.println(usuarios);
-//                testmenu();
-//                break;
-//            }
-//            case "exit": {
-//                break;
-//            }
-//            case "geteditperms": {
-//                inp = JOptionPane.showInputDialog(null, "");
-//            }
-//            default: {
-//                testmenu();
-//                break;
-//            }
-//        }
-//    }
-//    public static boolean contieneUsuario(String nombre){
-//        boolean val=false;
-//        usuarios.forEach((n)->{if (usuarios.get(n).getNombre()==nombre){return true;}});
-//        return val;
-//    }
-//    public static void editarCategoria(Categoria c){
-//        String inp;
-//        inp = JOptionPane.showInputDialog(null, "Cual campo va a editar? (id, nombre, descripcion, salir").toLowerCase();
-//        String val;
-//        switch (inp){
-//            case "id":
-//            {
-//                val=JOptionPane.showInputDialog(null,"id");
-//                categorias.replace();
-//            }
-//
-//        }
-//    }
+
 }

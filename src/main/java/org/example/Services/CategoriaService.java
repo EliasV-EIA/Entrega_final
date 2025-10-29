@@ -26,6 +26,17 @@ public class CategoriaService {
     public Optional<Categoria> getCategoriaById(Long id) {
         return categoriaRepository.findById(id);
     }
+    public Optional<Categoria> getCategoriaByNombre(String nombre) {
+        return categoriaRepository.findByNombre(nombre);
+    }
+
+    public boolean checkByNombre(String nombre){
+        if (categoriaRepository.existsByNombre(nombre)){
+            return true;
+        }
+        else return false;
+
+    }
 
     public boolean deleteCategoria(Long id) {
         if (categoriaRepository.existsById(id)) {

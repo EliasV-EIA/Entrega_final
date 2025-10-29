@@ -34,4 +34,11 @@ public class AdministradorContenido extends Usuario {
             this.permisosDeEdicion.add("fecha");
     }
 
+    public void setPermisosDeEdicion(Set<String> permisosDeEdicion) {
+        this.permisosDeEdicion = permisosDeEdicion;
+    }
+
+    public Set<String> getPermisosDeEdicion() {
+        return permisosDeEdicion;
+    }
 }

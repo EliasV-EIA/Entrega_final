@@ -25,7 +25,16 @@ public class ProductoService {
     public Optional<Producto> getProductoById(Long id) {
         return productoRepository.findById(id);
     }
+    public Optional<Producto> getProductoByNombre(String nombre) {
+        return productoRepository.findByNombre(nombre);
+    }
+    public boolean checkByNombre(String nombre){
+        if (productoRepository.existsByNombre(nombre)){
+            return true;
+        }
+        else return false;
 
+    }
     public boolean deleteProducto(Long id) {
         if (productoRepository.existsById(id)) {
             productoRepository.deleteById(id);
