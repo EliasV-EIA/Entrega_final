@@ -16,4 +16,12 @@ public class AdministradorUsuarios extends Usuario {
         super(nombre, passwordHash, rol, fechaRegistro, estadoCuenta);
         this.nivelAcceso = nivelAcceso;
     }
+
+    public int getNivelAcceso() {
+        return nivelAcceso;
+    }
+
+    public void setNivelAcceso(int nivelAcceso) {
+        this.nivelAcceso = nivelAcceso;
+    }
 }

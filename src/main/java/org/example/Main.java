@@ -4,7 +4,6 @@ import org.example.Model.*;
 import org.example.Services.CategoriaService;
 import org.example.Services.UsuarioService;
 import org.example.Services.ProductoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -162,11 +161,12 @@ public class Main {
 
                     String nombre_producto = JOptionPane.showInputDialog(null,"Nombre de el producto a editar");
                     if(productoService.checkByNombre(nombre_producto)){
-                        editarProducto(productoService.getProductoByNombre(nombre_producto).get());
+                        editarProducto(u,productoService.getProductoByNombre(nombre_producto).get());
                     }
 
                 } else if (opt == 1) {
                   //  if (u.getPermisosDeEdicion().contains("categoria")){
+                    if(u.checkPermiso("categoria")){
                         String nombre_categoria= JOptionPane.showInputDialog(null, "Nombre de la categoria a editar");
                         if(categoriaService.checkByNombre(nombre_categoria)){
                             editarCategoria(categoriaService.getCategoriaByNombre(nombre_categoria).get());
@@ -175,6 +175,8 @@ public class Main {
                             JOptionPane.showMessageDialog(null, "Categoria inexistente");
 
                         }
+
+                    }else JOptionPane.showMessageDialog(null, "No tiene permiso para editar categorias");
 
                   //  }
                 }
@@ -301,7 +303,53 @@ public class Main {
                     editarUsuario(usuario);
                     break;
                 }
+                String nuevo_rol= JOptionPane.showInputDialog(null, "Rol");
+                usuario.setRol(nuevo_rol);
+                usuarioService.saveUsuario(usuario);
             }
+            case "nivel":{
+                if (!(usuario instanceof AdministradorUsuarios)){
+                    editarUsuario(usuario);
+                    break;
+                }
+                int nuevo_nivel = Integer.parseInt(JOptionPane.showInputDialog(null, "Nivel"));
+                ((AdministradorUsuarios) usuario).setNivelAcceso( nuevo_nivel);
+                usuarioService.saveUsuario(usuario);
+                editarUsuario(usuario);
+                break;
+            }
+            case "direccion":{
+                if(!(usuario instanceof Cliente)){
+                    editarUsuario(usuario);
+                    break;
+                }
+                String nueva_direccion = JOptionPane.showInputDialog(null, "Direccion");
+                ((Cliente) usuario).setDireccionEnvio(nueva_direccion);
+                usuarioService.saveUsuario(usuario);
+                editarUsuario(usuario);
+                break;
+            }
+            case "telefono":{
+                if(!(usuario instanceof Cliente)){
+                    editarUsuario(usuario);
+                    break;
+                }
+                String nuevo_telefono = JOptionPane.showInputDialog(null, "Telefono");
+                ((Cliente) usuario).setTelefono(nuevo_telefono);
+                usuarioService.saveUsuario(usuario);
+                editarUsuario(usuario);
+                break;
+            }
+            case "permisos":{
+                if(!(usuario instanceof AdministradorContenido)){
+                    editarUsuario(usuario);
+                    break;
+                }
+                ((AdministradorContenido)usuario).changePermisos();
+                usuarioService.saveUsuario(usuario);
+                break;
+            }
+
             case "salir":{
                 break;
             }
@@ -337,56 +385,82 @@ public class Main {
             }
         }
     }
-    public static void editarProducto(Producto producto){
+    public static void editarProducto(AdministradorContenido usuario,Producto producto){
         String inp = JOptionPane.showInputDialog(null, "Que campo va a editar? (nombre, precio, stock, fecha, categoria, salir)").toLowerCase();
         switch (inp){
+
             case "nombre":{
+                if(!(usuario.checkPermiso("nombre"))){
+                JOptionPane.showMessageDialog(null,"No tiene permiso para editar este campo");
+                editarProducto(usuario,producto);
+                break;
+            }
                 String nuevo_nombre = JOptionPane.showInputDialog(null, "Nombre");
                 producto.setNombre(nuevo_nombre);
                productoService.saveProducto(producto);
-                editarProducto(producto);
+                editarProducto(usuario,producto);
                 break;
             }
             case "precio":{
+                if(!(usuario.checkPermiso("precio"))){
+                    JOptionPane.showMessageDialog(null,"No tiene permiso para editar este campo");
+                    editarProducto(usuario,producto);
+                    break;
+                }
                 Double nuevo_precio = Double.parseDouble(JOptionPane.showInputDialog(null, "Nombre"));
                 producto.setPrecio(nuevo_precio);
                 productoService.saveProducto(producto);
-                editarProducto(producto);
+                editarProducto(usuario,producto);
                 break;
             }
             case "stock":{
+                if(!(usuario.checkPermiso("stock"))){
+                    JOptionPane.showMessageDialog(null,"No tiene permiso para editar este campo");
+                    editarProducto(usuario,producto);
+                    break;
+                }
                 int nuevo_stock = Integer.parseInt(JOptionPane.showInputDialog(null, "Nombre"));
                 producto.setStock(nuevo_stock);
                 productoService.saveProducto(producto);
-                editarProducto(producto);
+                editarProducto(usuario,producto);
                 break;
             }
             case "salir":{
                 break;
             }
             case "fecha":{
+                if(!(usuario.checkPermiso("fecha"))){
+                    JOptionPane.showMessageDialog(null,"No tiene permiso para editar este campo");
+                    editarProducto(usuario,producto);
+                    break;
+                }
                 String nueva_fecha = JOptionPane.showInputDialog(null, "Nombre");
                 producto.setFechaLanzamiento(nueva_fecha);
                 productoService.saveProducto(producto);
-                editarProducto(producto);
+                editarProducto(usuario,producto);
                 break;
             }
             case "categoria":{
+                if(!(usuario.checkPermiso("categoria"))){
+                    JOptionPane.showMessageDialog(null,"No tiene permiso para editar este campo");
+                    editarProducto(usuario,producto);
+                    break;
+                }
                 String categoria= JOptionPane.showInputDialog(null, "Categoria");
                 if(categoriaService.checkByNombre(categoria)){
                     producto.setCategoria(categoriaService.getCategoriaByNombre(categoria).get());
                     productoService.saveProducto(producto);
-                    editarProducto(producto);
+                    editarProducto(usuario,producto);
                     break;
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "Categoria inexistente");
-                    editarProducto(producto);
+                    editarProducto(usuario,producto);
                     break;
                 }
             }
             default:{
-                editarProducto(producto);
+                editarProducto(usuario,producto);
                 break;
             }
         }
