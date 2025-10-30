@@ -113,12 +113,15 @@ public class Main {
         }
         else if (u instanceof AdministradorUsuarios) {
             accionAdminUsuarios((AdministradorUsuarios) u);
-        }
-        else
+        } else if (u instanceof Cliente) {
+            accionCliente((Cliente)u);
+        } else
             throw new RuntimeException("Tipo de usuario no encontrado");
 
     }
+    public static void accionCliente(Cliente u){
 
+    }
     public static void accionAdminUsuarios(AdministradorUsuarios u){
         String inp = JOptionPane.showInputDialog(null, "Escriba opcion: salir, editar, eliminar");
         switch (inp){
