@@ -12,11 +12,15 @@ public class Cliente extends Usuario {
 
     private String direccionEnvio;
     private String telefono;
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carrito_id")
+    private Carrito carrito;
     public Cliente(String nombre, String passwordHash, String fechaRegistro, String estadoCuenta, String direccionEnvio, String telefono) {
         super(nombre, passwordHash, "cliente", fechaRegistro, estadoCuenta);
         this.direccionEnvio = direccionEnvio;
         this.telefono = telefono;
+        this.carrito = new Carrito();
+        this.carrito.setCliente(this);
     }
 
     public String getDireccionEnvio() {
@@ -33,5 +37,13 @@ public class Cliente extends Usuario {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public Carrito getCarrito() {
+        return carrito;
+    }
+
+    public void setCarrito(Carrito carrito) {
+        this.carrito = carrito;
     }
 }
