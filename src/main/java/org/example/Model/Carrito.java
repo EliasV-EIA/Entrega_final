@@ -63,6 +63,26 @@ public class Carrito {
     public List<LineaCarrito> getLineas() {
         return lineas;
     }
+    public LineaCarrito getOneLinea(String nombre){
+        LineaCarrito linea= null;
+        for (LineaCarrito l : getLineas()) {
+            if (((l.getProducto().getNombre()).compareTo(nombre)) == 0) {
+                linea= l;
+                break;
+            }
+        }
+        return linea;
+    }
+    public boolean checkNombreLinea(String nombre){
+        boolean contains = false;
+        for (LineaCarrito l : getLineas()) {
+            if (((l.getProducto().getNombre()).compareTo(nombre)) == 0) {
+                contains=true;
+                break;
+            }
+        }
+        return contains;
+    }
 
     public void setLineas(List<LineaCarrito> lineas) {
         this.lineas = lineas;

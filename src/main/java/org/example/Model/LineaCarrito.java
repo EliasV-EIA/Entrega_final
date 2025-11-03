@@ -27,9 +27,9 @@ public class LineaCarrito {
     @JoinColumn(name = "producto_id")
     private Producto producto;
 
-    public LineaCarrito(int cantidad, double subtotal, Producto producto) {
+    public LineaCarrito( Producto producto,int cantidad) {
         this.cantidad = cantidad;
-        this.subtotal = subtotal;
+//        this.subtotal = subtotal;
         this.producto = producto;
     }
 
@@ -68,7 +68,9 @@ public class LineaCarrito {
     public Producto getProducto() {
         return producto;
     }
-
+    public void calcularSubtotal(){
+        this.subtotal=this.producto.getPrecio()*cantidad;
+    }
     public void setProducto(Producto producto) {
         this.producto = producto;
     }

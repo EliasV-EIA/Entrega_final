@@ -1,9 +1,7 @@
 package org.example;
 
 import org.example.Model.*;
-import org.example.Services.CategoriaService;
-import org.example.Services.UsuarioService;
-import org.example.Services.ProductoService;
+import org.example.Services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,11 +18,15 @@ public class Main {
 
     private static ProductoService productoService;
 
-
     private static CategoriaService categoriaService;
 
-
     private static UsuarioService usuarioService;
+
+    private static CarritoService carritoService;
+
+    private static LineaCarritoService lineaCarritoService;
+
+
     public static void main(String[] args) {
         System.setProperty("java.awt.headless", "false");
 
@@ -37,8 +39,6 @@ public class Main {
         electorBase();
     }
 
-
-    public static List<String> nombres_usuario;
 
 
     @Bean
@@ -120,11 +120,68 @@ public class Main {
 
     }
     public static void accionCliente(Cliente u){
-
+        String inp = JOptionPane.showInputDialog(null, "Escriba opcion: salir, carrito");
+        switch (inp.toLowerCase()){
+            case "carrito":{
+                accionCarrito(u.getCarrito());
+                accionCliente(u);
+                break;
+            }
+            case "salir":{
+                break;
+            }
+            default:{
+                accionCliente(u);
+                break;
+            }
+        }
+    }
+    public static void accionCarrito(Carrito carrito){
+        String inp = JOptionPane.showInputDialog(null, "Escriba opcion: salir, anadir, eliminar");
+        switch (inp){
+            case "anadir":{
+                productoService.getAllProductos().forEach((c) -> {
+                    System.out.println(c.getNombre());
+                });
+                String nombre_producto = JOptionPane.showInputDialog(null, "Nombre del producto").toLowerCase();
+                int cantidad = Integer.parseInt(JOptionPane.showInputDialog(null, "Cantidad"));
+                if (!productoService.checkByNombre(nombre_producto)){
+                    JOptionPane.showMessageDialog(null,"Producto inexistente");
+                    accionCarrito(carrito);
+                    break;
+                }
+                LineaCarrito linea =new LineaCarrito(productoService.getProductoByNombre(nombre_producto).get(),cantidad);
+                carrito.agregarLinea(linea);
+                lineaCarritoService.save(linea);
+                carritoService.save(carrito);
+            }
+            case "eliminar":{
+                carrito.getLineas().forEach((c) -> {
+                    System.out.println(c.getProducto().getNombre());
+            });
+                String nombre_producto = JOptionPane.showInputDialog(null, "Nombre del producto").toLowerCase();
+                if(!carrito.checkNombreLinea(nombre_producto)){
+                    JOptionPane.showMessageDialog(null, "Producto no se encuentra en el carrito");
+                    accionCarrito(carrito);
+                    break;
+                }
+                carrito.eliminarLinea(carrito.getOneLinea(nombre_producto));
+                carritoService.save(carrito);
+                accionCarrito(carrito);
+                break;
+            }
+            case "salir":{
+                break;
+            }
+            default:{
+                accionCarrito(carrito);
+                break;
+            }
+        }
     }
     public static void accionAdminUsuarios(AdministradorUsuarios u){
         String inp = JOptionPane.showInputDialog(null, "Escriba opcion: salir, editar, eliminar");
-        switch (inp){
+        switch (inp.toLowerCase()){
             case "eliminar":{
                 String nombre_usuario= JOptionPane.showInputDialog(null, "Nombre del usuario a eliminar");
                 if (usuarioService.checkByNombre(nombre_usuario)){
@@ -195,7 +252,7 @@ public class Main {
                     double precio_producto;
                     int stock_producto;
                     String fecha_producto;
-                    nombre_producto = JOptionPane.showInputDialog(null, "Nombre");
+                    nombre_producto = JOptionPane.showInputDialog(null, "Nombre").toLowerCase();
                     categoria_producto = JOptionPane.showInputDialog(null, "Categoria").toLowerCase();
                     if (!categoriaService.checkByNombre(nombre_producto))
                     {
