@@ -25,7 +25,7 @@ public class CarritoService {
 
     public void agregarProducto(Carrito carrito, Producto producto, int cantidad) {
         double subtotal = producto.getPrecio() * cantidad;
-        LineaCarrito linea = new LineaCarrito(cantidad, subtotal, producto);
+        LineaCarrito linea = new LineaCarrito(producto,cantidad);
         carrito.agregarLinea(linea);
         carritoRepository.save(carrito);
     }

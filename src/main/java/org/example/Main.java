@@ -255,7 +255,7 @@ public class Main {
                     String fecha_producto;
                     nombre_producto = JOptionPane.showInputDialog(null, "Nombre").toLowerCase();
                     categoria_producto = JOptionPane.showInputDialog(null, "Categoria").toLowerCase();
-                    if (!categoriaService.checkByNombre(nombre_producto))
+                    if (!(categoriaService.checkByNombre(nombre_producto)))
                     {
                         JOptionPane.showMessageDialog(null, "Categoria inexistente");
                         accionAdminContenido(u);
@@ -539,7 +539,7 @@ public class Main {
         nombre = JOptionPane.showInputDialog(null, "Nombre");
         //id = JOptionPane.showInputDialog(null, "ID");
         pass = JOptionPane.showInputDialog(null, "Contrasena");
-        fecha = JOptionPane.showInputDialog(null, "Fecha de registro(automatica en el futuro)");
+        fecha = JOptionPane.showInputDialog(null, "Fecha de registro");
         estado = JOptionPane.showInputDialog(null, "Estado");
         if (tipo == 0) {
             String direccion = JOptionPane.showInputDialog(null, "Direccion de envio");
