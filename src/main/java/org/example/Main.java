@@ -165,6 +165,7 @@ public class Main {
                     accionCarrito(carrito);
                     break;
                 }
+                lineaCarritoService.deleteLineacarrito(carrito.getOneLinea(nombre_producto).getId());
                 carrito.eliminarLinea(carrito.getOneLinea(nombre_producto));
                 carritoService.save(carrito);
                 accionCarrito(carrito);
